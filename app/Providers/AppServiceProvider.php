@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Interfaces\TaskDistributionStrategyInterface;
+use App\Services\DefaultTaskDistributionStrategy;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TaskDistributionStrategyInterface::class, DefaultTaskDistributionStrategy::class);
+
     }
 
     /**
