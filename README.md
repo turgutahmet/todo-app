@@ -34,3 +34,7 @@ http://localhost:8000
 ### Algorithm Visualization
 
 ![Algorithm Visualization](https://github.com/turgutahmet/todo-app/blob/5cfeee77a02e0291f1a70b980e1dae6be2e2ccf9/algorithm_readme.png)
+
+### Distribution Result
+
+![Distribution Result](https://github.com/turgutahmet/todo-app/blob/4f99f3b3b3ec1606dfd1a5c73e39ee400543c532/distribution.png)
