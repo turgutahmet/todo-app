@@ -23,7 +23,7 @@
                                 $task = $taskInfo['task'];
                                 $developerTime = $taskInfo['developer_time'];
                                 ?>
-                            <li class="bg-gray-50 p-3 rounded-md shadow-sm">
+                            <li class="bg-gray-50 rounded-md shadow-sm">
                                 <span class="font-medium">ID: {{ $task->uniqueId }}</span> |
                                 <span class="text-indigo-600">Difficulty: {{ $task->difficulty }}</span> |
                                 <span class="text-green-600">Duration: {{ $task->duration }}h</span> |
@@ -31,7 +31,7 @@
                             </li>
                         @endforeach
                     </ul>
-                    <p class="mt-4 font-semibold text-right text-gray-700">Total Hours: {{ number_format($data['total_hours'], 2) }}h</p>
+                    <p class="font-semibold text-right text-gray-700">Total Hours: {{ number_format($data['total_hours'], 2) }}h</p>
                 </div>
             @endforeach
         </div>
