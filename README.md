@@ -1,40 +1,135 @@
-### Setup
+
+## **Task Distribution**
+
+**Task Distribution App Using Laravel, Docker, and PostgreSQL**
+
+---
+
+## **Table of Contents**
+
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Architecture and Design Patterns](#architecture-and-design-patterns)
+4. [Prerequisites](#prerequisites)
+5. [Setup and Installation](#setup-and-installation)
+6. [Running the Application](#running-the-application)
+7. [Testing](#testing)
+8. [Data Visualization](#data-visualization)
+---
+
+## **Introduction**
+
+This project is a Laravel-based application designed to distribute tasks among developers efficiently. It leverages Docker for containerization, Nginx as the web server, PHP 8.1 for server-side scripting, and PostgreSQL for the database. The application implements various design patterns to ensure clean code architecture and maintainability.
+
+---
+
+## **Features**
+
+- **Task Fetching:** Retrieves tasks from multiple external providers.
+- **Task Distribution:** Distributes tasks among developers based on complexity and developer capacity.
+- **Partial Task Assignment:** Handles tasks exceeding developer capacity by assigning them over multiple weeks.
+- **Visualization:** Provides an interface to visualize task distribution across developers and weeks.
+- **Dockerized Environment:** Easy setup using Docker and Docker Compose.
+- **Unit Testing:** Comprehensive tests using PHPUnit and an in-memory SQLite database.
+
+---
+
+## **Architecture and Design Patterns**
+
+The application employs several design patterns:
+
+- **Strategy Pattern:** For flexible task distribution strategies.
+- **Factory Pattern:** To instantiate different task providers.
+- **Adapter Pattern:** To normalize data from various external task providers.
+- **Dependency Injection:** For loose coupling and easier testing.
+
+---
+
+## **Prerequisites**
+
+Ensure you have the following installed:
+
+- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
+
+---
+
+## **Setup and Installation**
+
+Clone the repository:
+
+```bash
+git clone https://github.com/turgutahmet/todo-app.git
+cd todo-app
+```
+
+### **1. Build Docker Containers**
+
 ```bash
 docker-compose build
 docker-compose up -d
-docker-compose exec app composer install
-docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan migrate
-docker-compose exec app php artisan todos:fetch 
-
 ```
-### Check local server
+
+### **2. Install PHP Dependencies**
+
 ```bash
-http://localhost:8000
+docker-compose exec app composer install
 ```
 
-### Check Database
-1. [ ] 1	mock-one_1	mock-one	3	4	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-2. [ ] 2	mock-one_2	mock-one	6	12	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-3. [ ] 3	mock-one_3	mock-one	5	9	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-4. [ ] 4	mock-one_4	mock-one	5	5	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-5. [ ] 5	mock-one_5	mock-one	7	7	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-6. [ ] 6	mock-one_6	mock-one	3	5	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-7. [ ] 7	mock-one_7	mock-one	4	8	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-8. [ ] 8	mock-one_8	mock-one	6	3	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-9. [ ] 9	mock-two_1	mock-two	3	5	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-10. [ ] 10	mock-two_2	mock-two	2	3	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-11. [ ] 11	mock-two_3	mock-two	1	2	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-12. [ ] 12	mock-two_4	mock-two	4	7	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-13. [ ] 13	mock-two_5	mock-two	5	8	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-14. [ ] 14	mock-two_6	mock-two	2	4	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-15. [ ] 15	mock-two_7	mock-two	3	6	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
-16. [ ] 16	mock-two_8	mock-two	1	3	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
+### **3. Generate Application Key**
 
-### Algorithm Visualization
+```bash
+docker-compose exec app php artisan key:generate
+```
 
-![Algorithm Visualization](https://github.com/turgutahmet/todo-app/blob/5cfeee77a02e0291f1a70b980e1dae6be2e2ccf9/algorithm_readme.png)
+### **4. Run Database Migrations**
 
-### Distribution Result
+```bash
+docker-compose exec app php artisan migrate
+```
 
-![Distribution Result](https://github.com/turgutahmet/todo-app/blob/4f99f3b3b3ec1606dfd1a5c73e39ee400543c532/distribution.png)
+### **5. Fetch Tasks from External Providers**
+
+```bash
+docker-compose exec app php artisan todos:fetch
+```
+
+---
+
+## **Running the Application**
+
+Access the application in your web browser:
+
+```bash
+http://localhost:8080
+```
+
+*(Note: Adjust the port if you've changed it in your `docker-compose.yml` or `.env` file.)*
+
+---
+
+## **Testing**
+
+To run the unit tests:
+
+```bash
+docker-compose exec app php artisan test
+```
+
+This will execute all unit tests, ensuring that the task distribution logic works as expected.
+
+---
+
+## **Data Visualization**
+
+### **Algorithm Visualization**
+
+![Algorithm Visualization](algorithm_readme.png)
+
+*This diagram illustrates the task distribution algorithm, showcasing how tasks are assigned to developers over multiple weeks.*
+
+### **Distribution Result**
+
+![Distribution Result](distribution.png)
+
+*An example of the task distribution output, displaying tasks assigned to each developer per week.*
