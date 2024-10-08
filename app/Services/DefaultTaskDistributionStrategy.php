@@ -61,6 +61,8 @@ class DefaultTaskDistributionStrategy implements TaskDistributionStrategyInterfa
         return $tasksAssignedThisWeek ? $weekAssignments : [];
     }
 
+    /* Gorevi atayacak en iyi gelistiriciyi bulur ve atanan toplam saat sayisini en aza indirmeyi hedefler
+     * */
     private function findBestDeveloperForTask(Task $task, array $developers): ?array
     {
         $bestAssignment = null;
@@ -75,9 +77,9 @@ class DefaultTaskDistributionStrategy implements TaskDistributionStrategyInterfa
             $possibleWorkUnits = $availableHours * $developer->speed;
             $workUnitsToAssign = min($task->remainingWorkUnits, $possibleWorkUnits);
             $taskHours = $workUnitsToAssign / $developer->speed;
-
+            // gorev atanirsa yeni toplam atanan saatleri hesapla
             $newTotalAssignedHours = $developer->totalAssignedHours + $developer->weeklyAssignedHours + $taskHours;
-
+            //tum gelistiriciler arasinda atanan maksimum toplam saati bul
             $maxTotalHours = $newTotalAssignedHours;
 
             foreach ($developers as $otherDeveloper) {
@@ -86,7 +88,7 @@ class DefaultTaskDistributionStrategy implements TaskDistributionStrategyInterfa
                     $maxTotalHours = max($maxTotalHours, $otherTotalHours);
                 }
             }
-
+            //bu atamanin toplam atanan max saati en aza indirip indirmedigini kontrol edelim
             if ($minMaxTotalHours === null || $maxTotalHours < $minMaxTotalHours) {
                 $minMaxTotalHours = $maxTotalHours;
                 $bestAssignment = [
@@ -104,12 +106,13 @@ class DefaultTaskDistributionStrategy implements TaskDistributionStrategyInterfa
         $availableHours = $developer->maxHoursPerWeek - $developer->weeklyAssignedHours;
 
         $task = $tasksList[$taskKey];
-
+        //bu hafta ne kadar is verilecegini hesapla
         $possibleWorkUnits = $availableHours * $developer->speed;
-
+        //mumkun oldukca cok atama yapilsin
         $workUnitsAssigned = min($task->remainingWorkUnits, $possibleWorkUnits);
         $taskHours = $workUnitsAssigned / $developer->speed;
 
+        //gorevin kalan is birimlerini guncelle
         $task->remainingWorkUnits -= $workUnitsAssigned;
 
         $developer->assignTask($task, $taskHours);
@@ -120,7 +123,7 @@ class DefaultTaskDistributionStrategy implements TaskDistributionStrategyInterfa
         ];
 
         $weekAssignments[$developer->name]['total_hours'] = ($weekAssignments[$developer->name]['total_hours'] ?? 0) + $taskHours;
-
+        // Gorev tamamlandiysa gorevi listeden cikar
         if ($task->remainingWorkUnits <= 0) {
             unset($tasksList[$taskKey]);
         }

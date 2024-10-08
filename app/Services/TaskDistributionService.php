@@ -21,7 +21,8 @@ class TaskDistributionService
         $this->developerConfigs = config('developers.developers');
         $this->maxHoursPerWeek = config('developers.max_hours_per_week');
     }
-
+    /* gorevleri gelistiriciler arasinda dagitir ve gereken toplam hafta saysini hesapla
+     * */
     public function distributeTasksAndCalculateWeeks(): array
     {
         $tasks = $this->getPreparedTasks();
@@ -34,6 +35,8 @@ class TaskDistributionService
             'developerConfigs' => $this->developerConfigs,
         ];
     }
+    /* gorevleri db den al ve hazirla
+     * */
     private function getPreparedTasks(): array
     {
         $todos = Todo::select(['id', 'unique_id', 'duration', 'difficulty'])
@@ -45,6 +48,8 @@ class TaskDistributionService
         })->toArray();
     }
 
+    /* gelistiricleri yapilandirmalara gore baslat
+     * */
     private function initializeDevelopers(): array
     {
         $developers = [];
