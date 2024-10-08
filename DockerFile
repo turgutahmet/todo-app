@@ -1,0 +1,42 @@
+# Use the official PHP 8.1 image with FPM
+FROM php:8.1-fpm
+
+ARG user
+ARG uid
+
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpq-dev \
+    libzip-dev \
+    unzip \
+    zip \
+    libonig-dev \
+    libxml2-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath gd
+
+COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
+
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
+WORKDIR /var/www
+
+COPY . /var/www
+
+RUN chown -R $user:$user /var/www
+
+RUN chmod -R 755 /var/www/storage
+
+USER $user
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
