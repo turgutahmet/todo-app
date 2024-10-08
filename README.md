@@ -30,3 +30,7 @@ http://localhost:8000
 14. [ ] 14	mock-two_6	mock-two	2	4	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
 15. [ ] 15	mock-two_7	mock-two	3	6	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
 16. [ ] 16	mock-two_8	mock-two	1	3	2024-10-08 17:15:34	2024-10-08 17:15:34	NULL
+
+### Algorithm Visualization
+
+![Algorithm Visualization](https://github.com/turgutahmet/todo-app/blob/5cfeee77a02e0291f1a70b980e1dae6be2e2ccf9/algorithm_readme.png)
